@@ -1,0 +1,38 @@
+---
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c++17
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Attach
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:        '^<score/'
+    Priority:     1
+  - Regex:        '^<nlohmann/'
+    Priority:     2
+  - Regex:        '^<pybind11/'
+    Priority:     3
+  - Regex:        '^<catch2/'
+    Priority:     4
+  - Regex:        '^<.*\.h>$'
+    Priority:     5
+  - Regex:        '^<.*>$'
+    Priority:     6
+  - Regex:        '.*'
+    Priority:     7
+
+SortIncludes: CaseSensitive
+SpaceAfterCStyleCast: false
+SpaceBeforeParens: ControlStatements

@@ -1,0 +1,54 @@
+[build-system]
+requires = [
+    "scikit-build-core>=0.8",
+    "pybind11>=2.12",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "score"
+version = "0.1.0"
+description = "Precise stock-market metrics in C/C++ with a Python interface"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "score-author" }]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+    "Programming Language :: C",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+viz  = ["matplotlib>=3.7", "pandas>=2.0"]
+dev  = [
+    "pytest>=7",
+    "pytest-cov>=4",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "pandas>=2.0",
+]
+
+[tool.scikit-build]
+# Tell scikit-build-core where the Python package lives in the source tree.
+wheel.packages = ["python/score"]
+
+# Pass through to CMake.
+cmake.version    = ">=3.20"
+cmake.build-type = "Release"
+cmake.args       = ["-DSCORE_BUILD_TESTS=OFF"]
+
+# Logs help when something goes wrong with the native build.
+build.verbose = true
+
+[tool.pytest.ini_options]
+testpaths   = ["tests/python"]
+addopts     = "-ra"
+pythonpath  = ["python"]
