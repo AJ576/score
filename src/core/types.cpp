@@ -10,4 +10,4 @@ namespace score {
 // info in one place and reduces compile time for downstream TUs.
 template class Series<double>;
 
-}  // namespace score
+} // namespace score

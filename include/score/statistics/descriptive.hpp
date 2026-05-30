@@ -10,7 +10,7 @@ namespace score::statistics {
 /// series and computes statistics on demand.  The lifetime of the input
 /// must outlive the DescriptiveStats instance.
 class DescriptiveStats {
-public:
+  public:
     /// Construct from a series.  Statistics that require non-empty input
     /// will throw EmptySeriesError lazily, when called.
     explicit DescriptiveStats(const Series<double>& series);
@@ -51,8 +51,8 @@ public:
     ///   γ_2 = E[((X - μ)/σ)⁴] - 3
     [[nodiscard]] double kurtosis() const;
 
-private:
+  private:
     const Series<double>& series_;
 };
 
-}  // namespace score::statistics
+} // namespace score::statistics

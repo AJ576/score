@@ -16,10 +16,10 @@ namespace score {
 /// hot numerical paths can use the unchecked variant via `data()`.
 template <typename T = double>
 class Series {
-public:
-    using value_type     = T;
-    using size_type      = std::size_t;
-    using iterator       = typename std::vector<T>::iterator;
+  public:
+    using value_type = T;
+    using size_type = std::size_t;
+    using iterator = typename std::vector<T>::iterator;
     using const_iterator = typename std::vector<T>::const_iterator;
 
     Series() = default;
@@ -29,8 +29,7 @@ public:
     Series(std::vector<T> data, std::vector<std::string> dates)
         : data_(std::move(data)), dates_(std::move(dates)) {
         if (!dates_.empty() && dates_.size() != data_.size()) {
-            throw std::invalid_argument(
-                "Series: dates size must match data size or be empty");
+            throw std::invalid_argument("Series: dates size must match data size or be empty");
         }
     }
 
@@ -56,11 +55,11 @@ public:
     const std::vector<T>& values() const noexcept { return data_; }
     const std::vector<std::string>& dates() const noexcept { return dates_; }
 
-private:
+  private:
     std::vector<T> data_;
     std::vector<std::string> dates_;
 };
 
 using SeriesD = Series<double>;
 
-}  // namespace score
+} // namespace score

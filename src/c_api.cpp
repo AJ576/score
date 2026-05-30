@@ -8,7 +8,6 @@
  */
 
 #include <score/c_api.h>
-
 #include <score/core/exceptions.hpp>
 #include <score/core/types.hpp>
 #include <score/metrics/stock_metrics.hpp>
@@ -65,19 +64,25 @@ ScoreStatus guarded(double* out, Fn&& fn) noexcept {
     }
 }
 
-}  // namespace
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Status
 // ---------------------------------------------------------------------------
 extern "C" const char* score_status_str(ScoreStatus status) {
     switch (status) {
-        case SCORE_OK:             return "ok";
-        case SCORE_E_INVALID_ARG:  return "invalid argument";
-        case SCORE_E_EMPTY_SERIES: return "empty series";
-        case SCORE_E_DOMAIN:       return "domain error";
-        case SCORE_E_NOT_IMPL:     return "not implemented";
-        case SCORE_E_UNKNOWN:      return "unknown error";
+    case SCORE_OK:
+        return "ok";
+    case SCORE_E_INVALID_ARG:
+        return "invalid argument";
+    case SCORE_E_EMPTY_SERIES:
+        return "empty series";
+    case SCORE_E_DOMAIN:
+        return "domain error";
+    case SCORE_E_NOT_IMPL:
+        return "not implemented";
+    case SCORE_E_UNKNOWN:
+        return "unknown error";
     }
     return "unknown status code";
 }
@@ -120,35 +125,41 @@ extern "C" void score_stats_destroy(ScoreDescriptiveStats* st) {
 }
 
 extern "C" ScoreStatus score_stats_mean(const ScoreDescriptiveStats* st, double* out) {
-    if (st == nullptr) return SCORE_E_INVALID_ARG;
+    if (st == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return st->impl.mean(); });
 }
 
-extern "C" ScoreStatus
-score_stats_variance(const ScoreDescriptiveStats* st, int sample, double* out) {
-    if (st == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stats_variance(const ScoreDescriptiveStats* st, int sample,
+                                            double* out) {
+    if (st == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return st->impl.variance(sample != 0); });
 }
 
-extern "C" ScoreStatus
-score_stats_stddev(const ScoreDescriptiveStats* st, int sample, double* out) {
-    if (st == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stats_stddev(const ScoreDescriptiveStats* st, int sample,
+                                          double* out) {
+    if (st == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return st->impl.stddev(sample != 0); });
 }
 
 extern "C" ScoreStatus score_stats_min(const ScoreDescriptiveStats* st, double* out) {
-    if (st == nullptr) return SCORE_E_INVALID_ARG;
+    if (st == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return st->impl.min(); });
 }
 
 extern "C" ScoreStatus score_stats_max(const ScoreDescriptiveStats* st, double* out) {
-    if (st == nullptr) return SCORE_E_INVALID_ARG;
+    if (st == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return st->impl.max(); });
 }
 
-extern "C" ScoreStatus
-score_stats_quantile(const ScoreDescriptiveStats* st, double q, double* out) {
-    if (st == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stats_quantile(const ScoreDescriptiveStats* st, double q,
+                                            double* out) {
+    if (st == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return st->impl.quantile(q); });
 }
 
@@ -166,31 +177,35 @@ extern "C" void score_stock_destroy(ScoreStockAnalyzer* sa) {
     delete sa;
 }
 
-extern "C" ScoreStatus
-score_stock_cumulative_return(const ScoreStockAnalyzer* sa, double* out) {
-    if (sa == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stock_cumulative_return(const ScoreStockAnalyzer* sa, double* out) {
+    if (sa == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return sa->impl.cumulative_return(); });
 }
 
-extern "C" ScoreStatus
-score_stock_annualized_return(const ScoreStockAnalyzer* sa, int periods, double* out) {
-    if (sa == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stock_annualized_return(const ScoreStockAnalyzer* sa, int periods,
+                                                     double* out) {
+    if (sa == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return sa->impl.annualized_return(periods); });
 }
 
-extern "C" ScoreStatus
-score_stock_annualized_volatility(const ScoreStockAnalyzer* sa, int periods, double* out) {
-    if (sa == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stock_annualized_volatility(const ScoreStockAnalyzer* sa, int periods,
+                                                         double* out) {
+    if (sa == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return sa->impl.annualized_volatility(periods); });
 }
 
-extern "C" ScoreStatus
-score_stock_sharpe_ratio(const ScoreStockAnalyzer* sa, double rf, int periods, double* out) {
-    if (sa == nullptr) return SCORE_E_INVALID_ARG;
+extern "C" ScoreStatus score_stock_sharpe_ratio(const ScoreStockAnalyzer* sa, double rf,
+                                                int periods, double* out) {
+    if (sa == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return sa->impl.sharpe_ratio(rf, periods); });
 }
 
 extern "C" ScoreStatus score_stock_max_drawdown(const ScoreStockAnalyzer* sa, double* out) {
-    if (sa == nullptr) return SCORE_E_INVALID_ARG;
+    if (sa == nullptr)
+        return SCORE_E_INVALID_ARG;
     return guarded(out, [&] { return sa->impl.max_drawdown(); });
 }

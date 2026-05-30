@@ -39,9 +39,9 @@ if(NOT pybind11_FOUND)
                          ${CMAKE_BINARY_DIR}/pybind11)
     else()
         message(FATAL_ERROR
-            "pybind11 not found.  Either run inside a venv where "
-            "`pip install pybind11` has been run, or vendor it as a submodule "
-            "at external/pybind11."
+            "pybind11 not found.  Run `make dev` (uv + editable install) so "
+            "pybind11 lands in .venv, or vendor it as a submodule at "
+            "external/pybind11."
         )
     endif()
 endif()

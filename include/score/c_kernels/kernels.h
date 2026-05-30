@@ -37,6 +37,14 @@ double score_k_max(const double* xs, size_t len);
  * Returns 0.0 when len == 0. */
 double score_k_accumulate_squared_dev(const double* xs, size_t len, double mean);
 
+/* Σ (x_i - mean)³.  Useful for skewness computations.
+ * Returns 0.0 when len == 0. */
+double score_k_accumulate_cubed_dev(const double* xs, size_t len, double mean);
+
+/* Σ (x_i - mean)⁴.  Useful for kurtosis computations.
+ * Returns 0.0 when len == 0. */
+double score_k_accumulate_quartic_dev(const double* xs, size_t len, double mean);
+
 #ifdef __cplusplus
 }
 #endif

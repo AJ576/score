@@ -8,4 +8,4 @@ namespace score {
 
 // Reserved.
 
-}  // namespace score
+} // namespace score

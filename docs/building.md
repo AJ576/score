@@ -6,23 +6,22 @@
 * **A C/C++17 compiler** — Apple Clang 14+, Clang 12+, or GCC 9+
 * **Python** ≥ 3.10
 * **git** (for the submodule)
-* `pybind11`, `numpy`, `pytest` (installed automatically via `pip install -e .[dev]`)
+* **[uv](https://docs.astral.sh/uv/)** (creates `.venv` and installs Python deps)
+* `pybind11`, `numpy`, `pytest` (installed automatically via `make dev`)
 
 ## One-shot build
 
 ```bash
 git submodule update --init --recursive
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
+make build    # clean, uv dev env, configure, and compile
 ```
 
-That single `pip install -e` invokes `scikit-build-core`, which in turn
-runs CMake, builds `libscore_core` and `_score_native`, and registers the
-package in editable mode. After it completes:
+`make build` creates `.venv` via uv, installs the editable package (which
+pulls in `pybind11`, `numpy`, `pytest`, etc.), removes stale build
+artifacts, then runs CMake. After it completes:
 
 ```bash
-python -c "import score; print(score.__version__)"
+.venv/bin/python -c "import score; print(score.__version__)"
 ```
 
 should print `0.1.0` without errors.
@@ -33,8 +32,7 @@ When you want compile errors to land directly in the terminal (instead of
 through pip's wrapper), use the Makefile:
 
 ```bash
-make submodules    # one-time
-make build         # configure + build to ./build/
+make build         # clean + dev + configure + build
 make test-cpp      # ctest from build dir
 make test-py       # pytest tests/python
 ```
@@ -73,6 +71,5 @@ when you want to iterate on a single C++ file without re-running pip).
 ## Cleaning
 
 ```bash
-make clean         # removes build/
-rm -f python/score/_score_native.*  # if a stale .so is left behind
+make clean         # removes build/ and stale python/score/_score_native.*
 ```

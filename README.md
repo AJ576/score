@@ -31,16 +31,11 @@ score/
 # 1. Pull the JSON submodule
 git submodule update --init --recursive
 
-# 2. Set up a venv with Python deps
-python3 -m venv .venv
-source .venv/bin/activate
-pip install pybind11 numpy pytest
+# 2. Build everything (creates .venv, installs deps, cleans stale artifacts)
+make build
 
-# 3. Build the native library + Python extension and install in editable mode
-pip install -e ".[dev]"
-
-# 4. Smoke-test the import
-python -c "import score; print(score.__version__)"
+# 3. Smoke-test the import
+.venv/bin/python -c "import score; print(score.__version__)"
 
 # 5. Run tests
 make test-cpp     # Catch2; most tests are [!shouldfail] until math is implemented

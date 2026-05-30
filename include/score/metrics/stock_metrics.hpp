@@ -13,7 +13,7 @@ namespace score::metrics {
 ///     252; weekly uses 52; monthly uses 12.
 ///   * Returns are unitless fractions (0.05 == 5%).
 class StockAnalyzer {
-public:
+  public:
     explicit StockAnalyzer(const Series<double>& prices);
 
     /// Simple returns:
@@ -41,15 +41,15 @@ public:
     /// Sharpe ratio:
     ///   (annualized_return - risk_free_rate) / annualized_volatility
     [[nodiscard]] double sharpe_ratio(double risk_free_rate = 0.0,
-                                      int periods_per_year   = 252) const;
+                                      int periods_per_year = 252) const;
 
     /// Maximum drawdown.
     ///   max over t of (peak_until_t - P_t) / peak_until_t,
     /// returned as a non-negative fraction.  0 means no drawdown.
     [[nodiscard]] double max_drawdown() const;
 
-private:
+  private:
     const Series<double>& prices_;
 };
 
-}  // namespace score::metrics
+} // namespace score::metrics
