@@ -52,7 +52,19 @@ namespace naive
     }
 }
 
-namespace erfc_std
+namespace std_math
 {
-    
-} // namespace erfc_std
+    double cdf_erfc(double x, double mean, double stddev)
+    {
+        double z = (x-mean)/(stddev * std::sqrt(2.0));
+        double cdf = 0.5*std::erfc(-z);
+        return cdf;
+    }
+
+    double cdf_erf(double x, double mean, double stddev)
+    {
+        double z = (x-mean)/(stddev * std::sqrt(2.0));
+        double cdf = 0.5*(1+std::erf(z));
+        return cdf;
+    }
+} // namespace std_math
