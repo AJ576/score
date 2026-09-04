@@ -51,3 +51,8 @@ namespace naive
         return simpson_rule(pdf, lower_bound, x, n );
     }
 }
+
+namespace erfc_std
+{
+    
+} // namespace erfc_std
