@@ -42,10 +42,11 @@ void run_benchmark(const std::string &name, F&& f, const std::vector<double>& in
 int main()
 {
     const std::vector<double> inputs = {
-        -10, -8.5, -7.5, -5, -2, -1, -0.5, -0.05, 0, 0.05, 0.5, 1, 2, 5, 7.5, 8.5, 10
+        -37, -30, -15, -10, -8.5, -7.5, -5, -2, -1, -0.5, -0.05, 0, 0.05, 0.5, 1, 2, 5, 7.5, 8.5, 10
     };
 
     run_benchmark("naive_simpson", [](double x) { return naive::cdf(x); }, inputs, 200);
     run_benchmark("erf_based",     [](double x) { return std_math::cdf_erf(x); }, inputs, 1'000'000);
     run_benchmark("erfc_based",    [](double x) { return std_math::cdf_erfc(x); }, inputs, 1'000'000);
+    run_benchmark("cephes_mine",   [](double x) { return my_math::cdf(x); }, inputs, 1'000'000);
 }
