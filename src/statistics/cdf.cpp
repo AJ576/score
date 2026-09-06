@@ -16,12 +16,9 @@ namespace
         double mul;
         for(int i=1;i<n;i++)
         {
-            if (i%2 == 0)
-            {
+            if (i%2 == 0) {
                 mul = 2.0;
-            }
-            else
-            {
+            } else {
                 mul = 4.0;
             }
             double x = a+i*h;
