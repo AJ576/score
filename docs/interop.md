@@ -2,7 +2,7 @@
 
 Score supports two ways to call into the native code from Python.
 
-## 1. pybind11 (preferred for application code)
+## 1. nanobind (preferred for application code)
 
 ```python
 from score import Series, DescriptiveStats, StockAnalyzer
@@ -17,7 +17,7 @@ print(stats.mean(), stats.stddev())
 print(sa.cumulative_return(), sa.sharpe_ratio())
 ```
 
-* **Type-safe** — pybind11 generates the conversion code at C++ compile
+* **Type-safe** — nanobind generates the conversion code at C++ compile
   time; passing the wrong type raises `TypeError` at the call site.
 * **Idiomatic objects** — `Series` supports `len(s)`, `s[i]`, iteration.
 * **No manual destructor calls** — Python's GC handles it.
@@ -67,7 +67,7 @@ lib.score_series_destroy(series)
 
 Both layers are wrappers over the same C++ instance. Internally:
 
-* **pybind11** holds a `std::unique_ptr<score::statistics::DescriptiveStats>`.
+* **nanobind** holds a `std::unique_ptr<score::statistics::DescriptiveStats>`.
 * **The C API** wraps the same class in `struct ScoreDescriptiveStats {
   score::statistics::DescriptiveStats impl; ... };` and hands callers a
   `void*` to it.
@@ -81,8 +81,8 @@ sync.
 
 | You want…                                   | Use         |
 |---------------------------------------------|-------------|
-| Idiomatic Python in normal app code         | pybind11    |
-| Zero-copy NumPy interop                     | pybind11    |
+| Idiomatic Python in normal app code         | nanobind    |
+| Zero-copy NumPy interop                     | nanobind    |
 | Practice `ctypes`/`cffi`                    | C API       |
 | Drive the library from Rust / Go / Lua      | C API       |
 | Stable ABI across Python upgrades           | C API       |

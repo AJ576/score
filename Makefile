@@ -7,7 +7,7 @@ JOBS      ?= $(shell sysctl -n hw.ncpu 2>/dev/null || nproc)
 UV ?= uv
 
 # Prefer the project .venv (created by `make dev` / `uv venv`) so CMake finds
-# pip-installed pybind11.
+# pip-installed nanobind.
 ifeq ($(wildcard .venv/bin/python),)
   PYTHON ?= python3
 else

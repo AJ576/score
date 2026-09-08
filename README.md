@@ -1,92 +1,79 @@
 # Score
 
-Precise stock-market metrics in C and C++17, exposed to Python via pybind11
-and a flat C API. Intended as a long-running learning project covering
-numerical methods, mathematical statistics, OOP/OOD, and language interop.
+Precise stock-market statistics and metrics in C++17, available to Python
+through nanobind. Score is a learning project for numerical methods,
+mathematical statistics, object-oriented design, and language interop.
+
+## Architecture
+
+```
+Python package
+      |
+      v
+nanobind module (_score_native)
+      |
+      v
+C++17 core: Series, statistics, metrics
+      ^
+      |
+optional C ABI: c_api.h / c_api.cpp
+```
+
+The C++ core is the single home for math. `DescriptiveStats` uses standard
+C++ algorithms and local numeric operations; there is no separate C kernel
+layer. The optional C ABI is implemented in C++ with `extern "C"` linkage,
+opaque handles, and exception-to-status translation for consumers such as
+ctypes, Rust, or Go.
 
 ## Layout
 
 ```
 score/
-├── include/score/        # public C / C++ headers
-├── src/                  # C++ implementation, C kernels, pybind11, C API
+├── include/score/        # C++ public headers and optional c_api.h
+├── src/
 │   ├── core/             # Series<T>, exceptions
-│   ├── statistics/       # DescriptiveStats
+│   ├── statistics/       # DescriptiveStats and distributions
 │   ├── metrics/          # StockAnalyzer
-│   ├── c_kernels/        # pure C17 numerical primitives
-│   ├── c_api.cpp         # extern "C" wrappers
-│   └── bindings/         # pybind11 module
+│   ├── c_api.cpp         # C ABI implemented in C++
+│   └── bindings/         # nanobind module
 ├── python/score/         # Python package
-├── tests/cpp             # Catch2 tests
-├── tests/python          # pytest tests
-├── data/                 # mock stock JSON
-├── scripts/              # mock-data generator, build helper
-├── docs/                 # architecture / interop / build docs
+├── tests/                # Catch2 and pytest suites
+├── docs/                 # architecture, build, and interop notes
 └── external/json/        # nlohmann/json submodule
 ```
 
-## Quick start
+## Quick Start
 
 ```bash
-# 1. Pull the JSON submodule
 git submodule update --init --recursive
-
-# 2. Build everything (creates .venv, installs deps, cleans stale artifacts)
 make build
-
-# 3. Smoke-test the import
 .venv/bin/python -c "import score; print(score.__version__)"
+make test-cpp
+make test-py
+```
 
-# 5. Run tests
-make test-cpp     # Catch2; most tests are [!shouldfail] until math is implemented
-make test-py      # pytest; data + binding tests pass immediately
+Regenerate mock market data with:
 
-# 6. (Re)generate mock data
+```bash
 python scripts/gen_mock_data.py
 ```
 
-## Architecture
+## Nanobind Direction
 
-Three layers, single source of truth:
+Python uses the native C++ domain types directly through `_score_native`:
 
-```
-Python
-   ↓  pybind11
-C++17 (score::Series, statistics, metrics)
-   ↓
-C17 kernels (sum, dot, accumulate)
-```
+1. Keep `Series<double>`, `DescriptiveStats`, and `StockAnalyzer` as the
+   canonical implementation.
+2. Add or evolve Python-facing behavior in
+   `src/bindings/nanobindings.cpp`, binding C++ methods rather than the C ABI.
+3. Cover native behavior with Catch2 and Python ownership/conversion behavior
+   with pytest.
 
-A separate `extern "C"` API at `include/score/c_api.h` exposes the same
-C++ classes through opaque pointers, so `ctypes` / `cffi` / Rust / Go can
-also drive the library.
+`c_api.h` remains supported as a separate ABI for non-Python FFI clients; it
+is not an internal dependency of nanobind.
 
-See `docs/architecture.md` and `docs/interop.md` for details.
-
-## Implementation status
-
-The scaffold is intentionally *complete in shape* and *empty in math*:
-
-| Layer                 | State                              |
-|-----------------------|------------------------------------|
-| Build system          | complete (CMake + Make + scikit-build-core) |
-| C++ headers           | complete (full declarations + Doxygen)      |
-| C++ method bodies     | **stubs** (return 0.0 / throw NotImpl)      |
-| C kernel bodies       | **stubs**                                   |
-| C API forwarding      | complete                                    |
-| pybind11 bindings     | complete                                    |
-| Python package        | complete                                    |
-| Mock data + loader    | complete                                    |
-| C++ tests             | written, mostly tagged `[!shouldfail]`      |
-| Python tests          | data + bindings pass immediately            |
-
-Recommended order to fill in the math:
-
-1. `src/c_kernels/kernels.c` — the rest of the library leans on these
-2. `src/statistics/descriptive.cpp` — uses the kernels
-3. `src/metrics/stock_metrics.cpp` — uses descriptive stats
-4. As each function is implemented, drop the `[!shouldfail]` tag from the
-   matching test in `tests/cpp/`.
+See `docs/architecture.md`, `docs/building.md`, and `docs/interop.md` for
+details.
 
 ## License
 

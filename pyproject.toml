@@ -1,14 +1,14 @@
 [build-system]
 requires = [
     "scikit-build-core>=0.8",
-    "pybind11>=2.12",
+    "nanobind>=2.0",
 ]
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "score"
 version = "0.1.0"
-description = "Precise stock-market metrics in C/C++ with a Python interface"
+description = "Precise stock-market metrics in C++ with a Python interface"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "score-author" }]
@@ -16,7 +16,6 @@ license = { text = "MIT" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: C++",
-    "Programming Language :: C",
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX",
     "Operating System :: MacOS",
@@ -29,7 +28,7 @@ dependencies = [
 [project.optional-dependencies]
 viz  = ["matplotlib>=3.7", "pandas>=2.0"]
 dev  = [
-    "pybind11>=2.12",
+    "nanobind>=2.0",
     "pytest>=7",
     "pytest-cov>=4",
     "numpy>=1.24",

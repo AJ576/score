@@ -1,0 +1,117 @@
+{
+  "title": "SCORE — Portfolio Optimization Roadmap",
+  "subtitle": "Math track (stats / probability / SDEs)  x  OOP track (Composite + patterns)",
+  "columns": [
+    {
+      "heading": "0 · FOUNDATION",
+      "color": "gray",
+      "nodes": [
+        {
+          "id": "returns",
+          "title": "Return series",
+          "body": "MarketData -> period='1y'\nSimple & log returns\nr_t = ln(P_t / P_{t-1})",
+          "done": true
+        },
+        {
+          "id": "domain",
+          "title": "OOP: value objects",
+          "body": "ReturnSeries (immutable)\nwraps pandas Series\n__add__, .mean(), .std()"
+        }
+      ]
+    },
+    {
+      "heading": "1 · STATISTICS",
+      "color": "blue",
+      "nodes": [
+        {
+          "id": "moments",
+          "title": "Per-asset moments",
+          "body": "mu, sigma, skew, kurtosis\nannualize: mu*252, sigma*sqrt(252)"
+        },
+        {
+          "id": "cov",
+          "title": "Covariance matrix",
+          "body": "Sigma = Cov(r_i, r_j)\ncorrelation heatmap\nTHE heart of diversification"
+        },
+        {
+          "id": "beta",
+          "title": "CAPM beta",
+          "body": "regress asset vs ^GSPC\nbeta = Cov(r,m)/Var(m)\nsystematic risk"
+        }
+      ]
+    },
+    {
+      "heading": "2 · PROBABILITY",
+      "color": "violet",
+      "nodes": [
+        {
+          "id": "dist",
+          "title": "Distribution fitting",
+          "body": "Gaussian vs Student-t\nfat tails, QQ-plot\nchi^2 / KS test"
+        },
+        {
+          "id": "var",
+          "title": "VaR / CVaR",
+          "body": "95% worst-case loss\nhistorical / parametric\n/ Monte Carlo"
+        },
+        {
+          "id": "mc",
+          "title": "Monte Carlo engine",
+          "body": "simulate N future paths\nStrategy pattern:\npluggable path model"
+        }
+      ]
+    },
+    {
+      "heading": "3 · OPTIMIZATION",
+      "color": "green",
+      "nodes": [
+        {
+          "id": "sharpe",
+          "title": "Portfolio metrics",
+          "body": "var_p = w^T Sigma w\nSharpe = (mu_p - rf)/sigma_p"
+        },
+        {
+          "id": "frontier",
+          "title": "Efficient frontier",
+          "body": "Markowitz mean-variance\nLagrange / scipy.optimize\n<-- the capstone"
+        }
+      ]
+    },
+    {
+      "heading": "4 · SDE / DIFF-EQ",
+      "color": "orange",
+      "nodes": [
+        {
+          "id": "gbm",
+          "title": "GBM",
+          "body": "dS = mu S dt + sigma S dW\nEuler-Maruyama solver\npowers the MC engine"
+        },
+        {
+          "id": "ou",
+          "title": "Ornstein-Uhlenbeck",
+          "body": "mean-reverting SDE\npairs / spread trading"
+        },
+        {
+          "id": "bs",
+          "title": "Black-Scholes PDE",
+          "body": "(optional) options desk\nfinite-difference grid"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    ["returns", "domain"],
+    ["domain", "moments"],
+    ["moments", "cov"],
+    ["moments", "beta"],
+    ["cov", "dist"],
+    ["cov", "sharpe"],
+    ["dist", "var"],
+    ["var", "mc"],
+    ["sharpe", "frontier"],
+    ["mc", "gbm"],
+    ["gbm", "ou"],
+    ["gbm", "bs"],
+    ["mc", "var"]
+  ]
+}

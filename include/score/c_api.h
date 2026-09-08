@@ -4,7 +4,7 @@
  * Public C API for the Score library.  Wraps the C++ classes in a flat,
  * extern "C" surface using opaque pointers (SQLite-style) so that:
  *   * pure C clients can use the library,
- *   * Python callers can use ctypes/CFFI as an alternative to pybind11,
+ *   * Python callers can use ctypes/CFFI as an alternative to nanobind,
  *   * non-C++ languages (Rust, Go, etc.) can FFI in cleanly.
  *
  * Methods that can fail return a ScoreStatus and write the result through
