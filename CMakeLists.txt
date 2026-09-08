@@ -28,11 +28,20 @@ endif()
 # ---------------------------------------------------------------------------
 # Options
 # ---------------------------------------------------------------------------
-option(SCORE_BUILD_PYBIND "Build the pybind11 Python module" ON)
+option(SCORE_BUILD_NANOBIND "Build the nanobind Python module" ON)
 option(SCORE_BUILD_TESTS  "Build the C++ tests"               ON)
 
 # Position-independent code, required for shared libs / Python modules
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Enable link-time optimization where supported so hot leaf functions defined
+# in one translation unit (e.g. score::statistics) can still be inlined into
+# callers in another (e.g. the nanobind module).
+include(CheckIPOSupported)
+check_ipo_supported(RESULT SCORE_IPO_SUPPORTED OUTPUT SCORE_IPO_ERROR)
+if(SCORE_IPO_SUPPORTED AND CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
+endif()
 
 # ---------------------------------------------------------------------------
 # Warnings (apply at directory scope to all our targets, not to vendored deps)
@@ -63,7 +72,7 @@ endif()
 # ---------------------------------------------------------------------------
 add_subdirectory(src)
 
-if(SCORE_BUILD_PYBIND)
+if(SCORE_BUILD_NANOBIND)
     add_subdirectory(src/bindings)
 endif()
 

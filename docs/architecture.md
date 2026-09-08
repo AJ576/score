@@ -12,8 +12,8 @@ Score is structured as four layers, each with a single responsibility:
              │
              ▼
 ┌────────────────────────────────────────────────────────┐
-│  pybind11 module: _score_native                        │
-│    src/bindings/pybindings.cpp                         │
+│  nanobind module: _score_native                         │
+│    src/bindings/nanobindings.cpp                        │
 │    Translates std::vector ↔ list/numpy automatically.  │
 └────────────┬───────────────────────────────────────────┘
              │
@@ -46,11 +46,12 @@ drive the same C++ classes.
   logic of their own — they delegate to the C kernels for sums, dot
   products, etc. That makes the C/C++ split visible and useful, instead of
   making C a thin afterthought.
-* **One source of truth for math.** Both pybind11 and the C API ultimately
+* **One source of truth for math.** Both nanobind and the C API ultimately
   call the same C++ methods, which call the same C kernels. There is no
   duplicate implementation of any formula.
-* **Stable ABI option.** pybind11 ties the binary to a specific Python
-  ABI. The C API doesn't, so the same `libscore_core.so` can be loaded
+* **Stable ABI option.** nanobind ties the binary to a specific Python
+  ABI (with an opt-in stable-ABI mode for CPython 3.12+). The C API doesn't,
+  so the same `libscore_core.so` can be loaded
   from any language with a C FFI without recompiling.
 * **Templates where useful, not pervasive.** `Series<T>` is a template, but
   the public surface only specializes it to `double` (`SeriesD`). Avoids
@@ -60,7 +61,7 @@ drive the same C++ classes.
 
 The two analysis classes (`DescriptiveStats`, `StockAnalyzer`) hold a
 **const reference** to their input `Series`. Callers must keep the series
-alive as long as the analyzer. Both pybind11 (via `py::keep_alive<1, 2>`)
+alive as long as the analyzer. Both nanobind (via `nb::keep_alive<1, 2>`)
 and the C API (by storing a non-owning pointer next to the analyzer
 struct) handle this transparently for their respective callers.
 
@@ -73,7 +74,7 @@ build/
 ├── src/
 │   └── libscore_core.{so,dylib}        # the C/C++ shared library
 ├── src/bindings/
-│   └── _score_native.cpython-*.{so}    # the pybind11 extension
+│   └── _score_native.cpython-*.{so}    # the nanobind extension
 └── tests/cpp/
     └── score_tests                     # the Catch2 binary
 ```

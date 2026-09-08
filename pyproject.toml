@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "scikit-build-core>=0.8",
-    "pybind11>=2.12",
+    "nanobind>=2.0",
 ]
 build-backend = "scikit_build_core.build"
 
@@ -29,7 +29,7 @@ dependencies = [
 [project.optional-dependencies]
 viz  = ["matplotlib>=3.7", "pandas>=2.0"]
 dev  = [
-    "pybind11>=2.12",
+    "nanobind>=2.0",
     "pytest>=7",
     "pytest-cov>=4",
     "numpy>=1.24",

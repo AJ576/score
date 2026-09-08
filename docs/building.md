@@ -7,7 +7,7 @@
 * **Python** ≥ 3.10
 * **git** (for the submodule)
 * **[uv](https://docs.astral.sh/uv/)** (creates `.venv` and installs Python deps)
-* `pybind11`, `numpy`, `pytest` (installed automatically via `make dev`)
+* `nanobind`, `numpy`, `pytest` (installed automatically via `make dev`)
 
 ## One-shot build
 
@@ -17,7 +17,7 @@ make build    # clean, uv dev env, configure, and compile
 ```
 
 `make build` creates `.venv` via uv, installs the editable package (which
-pulls in `pybind11`, `numpy`, `pytest`, etc.), removes stale build
+pulls in `nanobind`, `numpy`, `pytest`, etc.), removes stale build
 artifacts, then runs CMake. After it completes:
 
 ```bash
@@ -66,7 +66,7 @@ when you want to iterate on a single C++ file without re-running pip).
 |-----------------------------------|---------|-----------------------------------------|
 | `-DCMAKE_BUILD_TYPE=Debug`        | Release | Disables optimization, adds debug info  |
 | `-DSCORE_BUILD_TESTS=OFF`         | ON      | Skip Catch2 fetch + test executable     |
-| `-DSCORE_BUILD_PYBIND=OFF`        | ON      | Skip the pybind11 module (C/C++ only)   |
+| `-DSCORE_BUILD_NANOBIND=OFF`      | ON      | Skip the nanobind module (C/C++ only)   |
 
 ## Cleaning
 

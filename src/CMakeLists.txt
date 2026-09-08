@@ -8,6 +8,8 @@ set(SCORE_CORE_CPP_SOURCES
     core/exceptions.cpp
     core/types.cpp
     statistics/descriptive.cpp
+    statistics/normal_pdf.cpp
+    statistics/cdf.cpp
     metrics/stock_metrics.cpp
     c_api.cpp
 )

@@ -1,6 +1,6 @@
 # Score
 
-Precise stock-market metrics in C and C++17, exposed to Python via pybind11
+Precise stock-market metrics in C and C++17, exposed to Python via nanobind
 and a flat C API. Intended as a long-running learning project covering
 numerical methods, mathematical statistics, OOP/OOD, and language interop.
 
@@ -9,13 +9,13 @@ numerical methods, mathematical statistics, OOP/OOD, and language interop.
 ```
 score/
 ├── include/score/        # public C / C++ headers
-├── src/                  # C++ implementation, C kernels, pybind11, C API
+├── src/                  # C++ implementation, C kernels, nanobind, C API
 │   ├── core/             # Series<T>, exceptions
 │   ├── statistics/       # DescriptiveStats
 │   ├── metrics/          # StockAnalyzer
 │   ├── c_kernels/        # pure C17 numerical primitives
 │   ├── c_api.cpp         # extern "C" wrappers
-│   └── bindings/         # pybind11 module
+│   └── bindings/         # nanobind module
 ├── python/score/         # Python package
 ├── tests/cpp             # Catch2 tests
 ├── tests/python          # pytest tests
@@ -51,7 +51,7 @@ Three layers, single source of truth:
 
 ```
 Python
-   ↓  pybind11
+   ↓  nanobind
 C++17 (score::Series, statistics, metrics)
    ↓
 C17 kernels (sum, dot, accumulate)
@@ -74,7 +74,7 @@ The scaffold is intentionally *complete in shape* and *empty in math*:
 | C++ method bodies     | **stubs** (return 0.0 / throw NotImpl)      |
 | C kernel bodies       | **stubs**                                   |
 | C API forwarding      | complete                                    |
-| pybind11 bindings     | complete                                    |
+| nanobind bindings     | complete                                    |
 | Python package        | complete                                    |
 | Mock data + loader    | complete                                    |
 | C++ tests             | written, mostly tagged `[!shouldfail]`      |

@@ -1,4 +1,4 @@
-"""Verifies the pybind11 module loads and the type wiring is correct.
+"""Verifies the nanobind module loads and the type wiring is correct.
 
 These tests deliberately avoid asserting numerical results (the C++
 methods are stubs).  They check structure, not math.
