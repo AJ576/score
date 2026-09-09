@@ -1,9 +1,9 @@
-#include <score/c_kernels/kernels.h>
 #include <score/core/exceptions.hpp>
 #include <score/statistics/descriptive.hpp>
 
 #include <algorithm>
 #include <cmath>
+#include <numeric>
 #include <vector>
 
 namespace score::statistics {
@@ -14,7 +14,8 @@ double DescriptiveStats::mean() const {
     if (series_.empty()) {
         throw EmptySeriesError("DescriptiveStats::mean");
     }
-    return score_k_sum(series_.data(), series_.size()) / static_cast<double>(series_.size());
+    return std::accumulate(series_.cbegin(), series_.cend(), 0.0) /
+           static_cast<double>(series_.size());
 }
 
 double DescriptiveStats::variance(bool sample) const {
@@ -23,7 +24,11 @@ double DescriptiveStats::variance(bool sample) const {
     }
     const auto n = series_.size();
     const double m = mean();
-    const double sum_sq = score_k_accumulate_squared_dev(series_.data(), n, m);
+    const double sum_sq = std::accumulate(series_.cbegin(), series_.cend(), 0.0,
+                                          [m](double sum, double value) {
+                                              const double d = value - m;
+                                              return sum + d * d;
+                                          });
     const double denom = sample ? static_cast<double>(n - 1) : static_cast<double>(n);
     return sum_sq / denom;
 }
@@ -56,14 +61,14 @@ double DescriptiveStats::min() const {
     if (series_.empty()) {
         throw EmptySeriesError("DescriptiveStats::min");
     }
-    return score_k_min(series_.data(), series_.size());
+    return *std::min_element(series_.cbegin(), series_.cend());
 }
 
 double DescriptiveStats::max() const {
     if (series_.empty()) {
         throw EmptySeriesError("DescriptiveStats::max");
     }
-    return score_k_max(series_.data(), series_.size());
+    return *std::max_element(series_.cbegin(), series_.cend());
 }
 
 double DescriptiveStats::range() const {
@@ -99,7 +104,12 @@ double DescriptiveStats::skewness() const {
     const auto n = series_.size();
     const double m = mean();
     const double s = stddev(true);
-    return score_k_accumulate_cubed_dev(series_.data(), n, m) /
+    const double sum_cubed = std::accumulate(series_.cbegin(), series_.cend(), 0.0,
+                                              [m](double sum, double value) {
+                                                  const double d = value - m;
+                                                  return sum + d * d * d;
+                                              });
+    return sum_cubed /
            (static_cast<double>(n) * s * s * s);
 }
 
@@ -110,7 +120,12 @@ double DescriptiveStats::kurtosis() const {
     const auto n = series_.size();
     const double m = mean();
     const double s = stddev(true);
-    return score_k_accumulate_quartic_dev(series_.data(), n, m) /
+    const double sum_quartic = std::accumulate(series_.cbegin(), series_.cend(), 0.0,
+                                                [m](double sum, double value) {
+                                                    const double d = value - m;
+                                                    return sum + d * d * d * d;
+                                                });
+    return sum_quartic /
                (static_cast<double>(n) * s * s * s * s) -
            3.0;
 }

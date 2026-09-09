@@ -1,24 +1,21 @@
 # ---------------------------------------------------------------------------
 # Core shared library: score_core
-# Compiles C++17 sources from core/, statistics/, metrics/, plus the C17
-# kernels under c_kernels/ and the extern "C" API in c_api.cpp.
+# Compiles C++17 sources from core/, statistics/, metrics/, and the extern
+# "C" API implemented in c_api.cpp.
 # ---------------------------------------------------------------------------
 
 set(SCORE_CORE_CPP_SOURCES
     core/exceptions.cpp
     core/types.cpp
     statistics/descriptive.cpp
+    statistics/normal_pdf.cpp
+    statistics/cdf.cpp
     metrics/stock_metrics.cpp
     c_api.cpp
 )
 
-set(SCORE_CORE_C_SOURCES
-    c_kernels/kernels.c
-)
-
 add_library(score_core SHARED
     ${SCORE_CORE_CPP_SOURCES}
-    ${SCORE_CORE_C_SOURCES}
 )
 
 target_include_directories(score_core
@@ -38,9 +35,6 @@ set_target_properties(score_core PROPERTIES
     CXX_STANDARD          17
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS        OFF
-    C_STANDARD            17
-    C_STANDARD_REQUIRED   ON
-    C_EXTENSIONS          OFF
     VERSION               ${PROJECT_VERSION}
     SOVERSION             ${PROJECT_VERSION_MAJOR}
 )

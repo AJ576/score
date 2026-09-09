@@ -22,7 +22,7 @@ IncludeCategories:
     Priority:     1
   - Regex:        '^<nlohmann/'
     Priority:     2
-  - Regex:        '^<pybind11/'
+  - Regex:        '^<nanobind/'
     Priority:     3
   - Regex:        '^<catch2/'
     Priority:     4
