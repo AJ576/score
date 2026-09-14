@@ -51,6 +51,6 @@ void validate_wiener(double check_time, double time_step, int n_paths)
 
 int main()
 {
-    validate_wiener(/*check_time=*/14.0, /*time_step=*/7.0, /*n_paths=*/100000);
+    validate_wiener(/*check_time=*/14.0, /*time_step=**/0.05, /*n_paths=*/100000);
    
 }
