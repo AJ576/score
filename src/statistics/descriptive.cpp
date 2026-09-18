@@ -24,11 +24,11 @@ double DescriptiveStats::variance(bool sample) const {
     }
     const auto n = series_.size();
     const double m = mean();
-    const double sum_sq = std::accumulate(series_.cbegin(), series_.cend(), 0.0,
-                                          [m](double sum, double value) {
-                                              const double d = value - m;
-                                              return sum + d * d;
-                                          });
+    const double sum_sq =
+        std::accumulate(series_.cbegin(), series_.cend(), 0.0, [m](double sum, double value) {
+            const double d = value - m;
+            return sum + d * d;
+        });
     const double denom = sample ? static_cast<double>(n - 1) : static_cast<double>(n);
     return sum_sq / denom;
 }
@@ -104,13 +104,12 @@ double DescriptiveStats::skewness() const {
     const auto n = series_.size();
     const double m = mean();
     const double s = stddev(true);
-    const double sum_cubed = std::accumulate(series_.cbegin(), series_.cend(), 0.0,
-                                              [m](double sum, double value) {
-                                                  const double d = value - m;
-                                                  return sum + d * d * d;
-                                              });
-    return sum_cubed /
-           (static_cast<double>(n) * s * s * s);
+    const double sum_cubed =
+        std::accumulate(series_.cbegin(), series_.cend(), 0.0, [m](double sum, double value) {
+            const double d = value - m;
+            return sum + d * d * d;
+        });
+    return sum_cubed / (static_cast<double>(n) * s * s * s);
 }
 
 double DescriptiveStats::kurtosis() const {
@@ -120,14 +119,12 @@ double DescriptiveStats::kurtosis() const {
     const auto n = series_.size();
     const double m = mean();
     const double s = stddev(true);
-    const double sum_quartic = std::accumulate(series_.cbegin(), series_.cend(), 0.0,
-                                                [m](double sum, double value) {
-                                                    const double d = value - m;
-                                                    return sum + d * d * d * d;
-                                                });
-    return sum_quartic /
-               (static_cast<double>(n) * s * s * s * s) -
-           3.0;
+    const double sum_quartic =
+        std::accumulate(series_.cbegin(), series_.cend(), 0.0, [m](double sum, double value) {
+            const double d = value - m;
+            return sum + d * d * d * d;
+        });
+    return sum_quartic / (static_cast<double>(n) * s * s * s * s) - 3.0;
 }
 
 } // namespace score::statistics

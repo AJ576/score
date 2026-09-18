@@ -1,11 +1,11 @@
+#include <score/statistics/cdf.hpp>
+
 #include <chrono>
 #include <concepts>
 #include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include <score/statistics/cdf.hpp>
 
 template <std::invocable<double> F>
 void run_benchmark(const std::string& name, F&& f, const std::vector<double>& inputs,
@@ -43,6 +43,7 @@ void run_benchmark(const std::string& name, F&& f, const std::vector<double>& in
 
 //     run_benchmark("naive_simpson", [](double x) { return naive::cdf(x); }, inputs, 200);
 //     run_benchmark("erf_based", [](double x) { return std_math::cdf_erf(x); }, inputs, 1'000'000);
-//     run_benchmark("erfc_based", [](double x) { return std_math::cdf_erfc(x); }, inputs, 1'000'000);
-//     run_benchmark("cephes_mine", [](double x) { return my_math::cdf(x); }, inputs, 1'000'000);
+//     run_benchmark("erfc_based", [](double x) { return std_math::cdf_erfc(x); }, inputs,
+//     1'000'000); run_benchmark("cephes_mine", [](double x) { return my_math::cdf(x); }, inputs,
+//     1'000'000);
 // }
