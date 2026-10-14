@@ -3,9 +3,10 @@
 #include <score/statistics/descriptive.hpp>
 #include <score/statistics/risk.hpp>
 
-#include <cmath>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
+
+#include <cmath>
 
 using Catch::Matchers::WithinAbs;
 using score::Series;
@@ -100,4 +101,3 @@ TEST_CASE("risk error handling on invalid inputs", "[stats][risk]") {
     // Fewer than 2 returns
     REQUIRE_THROWS_AS(risk::calculate_risk_from_returns({0.05}), score::DomainError);
 }
-
