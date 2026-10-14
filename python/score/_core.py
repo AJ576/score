@@ -15,8 +15,12 @@ try:
         DomainError,
         EmptySeriesError,
         NativeNotImplementedError,
+        RiskStats,
         Series,
         StockAnalyzer,
+        calculate_risk,
+        calculate_risk_from_returns,
+        log_returns,
     )
 except ImportError as exc:  # pragma: no cover - defensive for fresh checkouts
     raise ImportError(
@@ -31,6 +35,10 @@ __all__ = [
     "DomainError",
     "EmptySeriesError",
     "NativeNotImplementedError",
+    "RiskStats",
     "Series",
     "StockAnalyzer",
+    "calculate_risk",
+    "calculate_risk_from_returns",
+    "log_returns",
 ]

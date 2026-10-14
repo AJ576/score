@@ -1,6 +1,9 @@
+#include <score/core/exceptions.hpp>
 #include <score/core/types.hpp>
 #include <score/statistics/descriptive.hpp>
+#include <score/statistics/risk.hpp>
 
+#include <cmath>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
@@ -56,3 +59,45 @@ TEST_CASE("DescriptiveStats::median even n", "[stats][median]") {
     DescriptiveStats d(s);
     REQUIRE_THAT(d.median(), WithinAbs(2.5, 1e-12));
 }
+
+TEST_CASE("risk::log_returns on {1, 2, 4}", "[stats][risk]") {
+    std::vector<double> prices = {1.0, 2.0, 4.0};
+    auto r = risk::log_returns(prices);
+    REQUIRE(r.size() == 2);
+    REQUIRE_THAT(r[0], WithinAbs(std::log(2.0), 1e-12));
+    REQUIRE_THAT(r[1], WithinAbs(std::log(2.0), 1e-12));
+}
+
+TEST_CASE("risk::calculate_risk on constant prices {100, 100, 100}", "[stats][risk]") {
+    std::vector<double> prices = {100.0, 100.0, 100.0};
+    auto stats = risk::calculate_risk(prices);
+    REQUIRE(stats.n == 2);
+    REQUIRE_THAT(stats.mean_daily_return, WithinAbs(0.0, 1e-12));
+    REQUIRE_THAT(stats.daily_std_return, WithinAbs(0.0, 1e-12));
+}
+
+TEST_CASE("risk::calculate_risk on moving prices", "[stats][risk]") {
+    std::vector<double> prices = {100.0, 105.0, 102.0, 108.0};
+    auto stats = risk::calculate_risk(prices);
+    REQUIRE(stats.n == 3);
+    REQUIRE(stats.daily_std_return > 0.0);
+}
+
+TEST_CASE("risk error handling on invalid inputs", "[stats][risk]") {
+    // Empty prices
+    REQUIRE_THROWS_AS(risk::log_returns({}), score::EmptySeriesError);
+
+    // Fewer than 2 prices
+    REQUIRE_THROWS_AS(risk::log_returns({100.0}), score::DomainError);
+
+    // Non-positive price
+    REQUIRE_THROWS_AS(risk::log_returns({100.0, -1.0}), score::DomainError);
+    REQUIRE_THROWS_AS(risk::log_returns({0.0, 100.0}), score::DomainError);
+
+    // Empty returns
+    REQUIRE_THROWS_AS(risk::calculate_risk_from_returns({}), score::EmptySeriesError);
+
+    // Fewer than 2 returns
+    REQUIRE_THROWS_AS(risk::calculate_risk_from_returns({0.05}), score::DomainError);
+}
+

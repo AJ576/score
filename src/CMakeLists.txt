@@ -10,6 +10,7 @@ set(SCORE_CORE_CPP_SOURCES
     statistics/descriptive.cpp
     statistics/normal_pdf.cpp
     statistics/cdf.cpp
+    statistics/risk.cpp
     metrics/stock_metrics.cpp
     c_api.cpp
 )

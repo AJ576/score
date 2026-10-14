@@ -12,6 +12,7 @@
 #include <score/metrics/stock_metrics.hpp>
 #include <score/statistics/cdf.hpp>
 #include <score/statistics/descriptive.hpp>
+#include <score/statistics/risk.hpp>
 
 #include <nanobind/make_iterator.h>
 #include <nanobind/nanobind.h>
@@ -117,6 +118,28 @@ NB_MODULE(_score_native, m) {
         },
         "x"_a, "mean"_a = 0.0, "stddev"_a = 1.0,
         "Vectorized normal_cdf over a 1-D array of x values.");
+
+    // ----------------------------------------------------------------------
+    // risk::RiskStats & risk functions
+    // ----------------------------------------------------------------------
+    nb::class_<risk::RiskStats>(m, "RiskStats")
+        .def_ro("mean_daily_return", &risk::RiskStats::mean_daily_return)
+        .def_ro("daily_std_return", &risk::RiskStats::daily_std_return)
+        .def_ro("n", &risk::RiskStats::n)
+        .def("__repr__", [](const risk::RiskStats& s) {
+            return "<RiskStats n=" + std::to_string(s.n) +
+                   " mean=" + std::to_string(s.mean_daily_return) +
+                   " std=" + std::to_string(s.daily_std_return) + ">";
+        });
+
+    m.def("calculate_risk", &risk::calculate_risk, "prices"_a,
+          "Calculate risk statistics (mean, daily std, n) from a price sequence.");
+
+    m.def("calculate_risk_from_returns", &risk::calculate_risk_from_returns, "returns"_a,
+          "Calculate risk statistics from a return sequence.");
+
+    m.def("log_returns", &risk::log_returns, "prices"_a,
+          "Compute log returns from a price sequence.");
 
     // ----------------------------------------------------------------------
     // Module metadata

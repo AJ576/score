@@ -17,8 +17,12 @@ from ._core import (
     DomainError,
     EmptySeriesError,
     NativeNotImplementedError,
+    RiskStats,
     Series,
     StockAnalyzer,
+    calculate_risk,
+    calculate_risk_from_returns,
+    log_returns,
 )
 
 __all__ = [
@@ -29,7 +33,12 @@ __all__ = [
     "DimensionMismatchError",
     "DomainError",
     "NativeNotImplementedError",
+    "RiskStats",
+    "calculate_risk",
+    "calculate_risk_from_returns",
+    "log_returns",
     "__version__",
 ]
 
 __version__ = "0.1.0"
+

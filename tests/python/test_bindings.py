@@ -59,3 +59,15 @@ def test_stock_analyzer_constructs(known_prices: list[float]) -> None:
     s = Series(known_prices)
     sa = StockAnalyzer(s)
     _ = sa
+
+
+def test_risk_calculate() -> None:
+    from score import calculate_risk, log_returns
+
+    prices = [100.0, 105.0, 102.0, 108.0]
+    r = log_returns(prices)
+    assert len(r) == 3
+    stats = calculate_risk(prices)
+    assert stats.n == 3
+    assert stats.daily_std_return > 0
+
