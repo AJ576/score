@@ -15,6 +15,8 @@ double cdf_erfc(double x, double mean = 0.0, double stddev = 1.0);
 
 /// CDF via (1 + std::erf(z))/2.
 double cdf_erf(double x, double mean = 0.0, double stddev = 1.0);
+
+double quantile(double p, double mean = 0.0, double stddev = 1.0);
 } // namespace std_math
 
 // Header-only Cephes-style erf/erfc so callers (including Python bindings)

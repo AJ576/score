@@ -50,4 +50,22 @@ double cdf_erf(double x, double mean, double stddev) {
     double cdf = 0.5 * (1 + std::erf(z));
     return cdf;
 }
+
+double quantile(double p, double mean, double stddev) {
+    double lo = mean - 40.0 * stddev;
+    double hi = mean + 40.0 * stddev;
+
+    for (int i = 0; i < 100; ++i) {
+        double mid = (lo + hi) / 2.0;
+
+        if (cdf_erfc(mid, mean, stddev) < p) {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+
+    return (lo + hi) / 2.0;
+}
+
 } // namespace std_math
