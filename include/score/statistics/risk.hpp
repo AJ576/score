@@ -17,4 +17,8 @@ RiskStats calculate_risk(const std::vector<double>& prices);
 
 RiskStats calculate_risk_from_returns(const std::vector<double>& returns);
 
+double calculate_var(const RiskStats& stats, double confidence, int horizon_days = 1);
+
+double calculate_cvar(const RiskStats& stats, double confidence, int horizon_days = 1);
+
 } // namespace risk

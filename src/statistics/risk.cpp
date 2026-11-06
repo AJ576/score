@@ -1,4 +1,6 @@
 #include <score/core/exceptions.hpp>
+#include <score/statistics/cdf.hpp>
+#include <score/statistics/normal_pdf.hpp>
 #include <score/statistics/risk.hpp>
 
 #include <cmath>
@@ -65,4 +67,34 @@ RiskStats calculate_risk_from_returns(const std::vector<double>& returns) {
 RiskStats calculate_risk(const std::vector<double>& prices) {
     return calculate_risk_from_returns(log_returns(prices));
 }
+
+double calculate_var(const RiskStats& stats, double confidence, int horizon_days) {
+    if (confidence <= 0.0 || confidence >= 1.0) {
+        throw score::DomainError("risk::calculate_var: confidence must be strictly in (0, 1)");
+    }
+    if (horizon_days < 1) {
+        throw score::DomainError("risk::calculate_var: horizon_days must be >= 1");
+    }
+
+    const double alpha = 1.0 - confidence;
+    const double z = std_math::quantile(alpha);
+    const double h = static_cast<double>(horizon_days);
+    return -(stats.mean_daily_return * h + z * stats.daily_std_return * std::sqrt(h));
+}
+
+double calculate_cvar(const RiskStats& stats, double confidence, int horizon_days) {
+    if (confidence <= 0.0 || confidence >= 1.0) {
+        throw score::DomainError("risk::calculate_cvar: confidence must be strictly in (0, 1)");
+    }
+    if (horizon_days < 1) {
+        throw score::DomainError("risk::calculate_cvar: horizon_days must be >= 1");
+    }
+
+    const double alpha = 1.0 - confidence;
+    const double z = std_math::quantile(alpha);
+    const double h = static_cast<double>(horizon_days);
+    const double phi_z = normal_pdf(z);
+    return -stats.mean_daily_return * h + stats.daily_std_return * std::sqrt(h) * (phi_z / alpha);
+}
+
 } // namespace risk
