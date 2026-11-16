@@ -71,3 +71,19 @@ def test_risk_calculate() -> None:
     assert stats.n == 3
     assert stats.daily_std_return > 0
 
+
+def test_var_and_cvar_bindings() -> None:
+    from score import calculate_cvar, calculate_risk_from_returns, calculate_var
+
+    # Simulated sample returns
+    returns = [-0.02, 0.01, -0.015, 0.03, -0.005, 0.02, -0.01, 0.015]
+    stats = calculate_risk_from_returns(returns)
+    assert stats.n == len(returns)
+
+    var_95 = calculate_var(stats, 0.95)
+    cvar_95 = calculate_cvar(stats, 0.95)
+    assert var_95 > 0.0
+    # CVaR is expected shortfall in the tail, so CVaR >= VaR for loss
+    assert cvar_95 > var_95
+
+

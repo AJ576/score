@@ -138,6 +138,12 @@ NB_MODULE(_score_native, m) {
     m.def("calculate_risk_from_returns", &risk::calculate_risk_from_returns, "returns"_a,
           "Calculate risk statistics from a return sequence.");
 
+    m.def("calculate_var", &risk::calculate_var, "stats"_a, "confidence"_a, "horizon_days"_a = 1,
+          "Calculate parametric Value at Risk (VaR) for a given confidence level.");
+
+    m.def("calculate_cvar", &risk::calculate_cvar, "stats"_a, "confidence"_a, "horizon_days"_a = 1,
+          "Calculate parametric Conditional Value at Risk (CVaR) for a given confidence level.");
+
     m.def("log_returns", &risk::log_returns, "prices"_a,
           "Compute log returns from a price sequence.");
 

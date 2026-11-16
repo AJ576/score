@@ -20,8 +20,10 @@ from ._core import (
     RiskStats,
     Series,
     StockAnalyzer,
+    calculate_cvar,
     calculate_risk,
     calculate_risk_from_returns,
+    calculate_var,
     log_returns,
 )
 
@@ -34,8 +36,10 @@ __all__ = [
     "DomainError",
     "NativeNotImplementedError",
     "RiskStats",
+    "calculate_cvar",
     "calculate_risk",
     "calculate_risk_from_returns",
+    "calculate_var",
     "log_returns",
     "__version__",
 ]

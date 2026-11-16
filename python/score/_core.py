@@ -18,8 +18,10 @@ try:
         RiskStats,
         Series,
         StockAnalyzer,
+        calculate_cvar,
         calculate_risk,
         calculate_risk_from_returns,
+        calculate_var,
         log_returns,
     )
 except ImportError as exc:  # pragma: no cover - defensive for fresh checkouts
@@ -38,7 +40,9 @@ __all__ = [
     "RiskStats",
     "Series",
     "StockAnalyzer",
+    "calculate_cvar",
     "calculate_risk",
     "calculate_risk_from_returns",
+    "calculate_var",
     "log_returns",
 ]
