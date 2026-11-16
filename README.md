@@ -72,8 +72,8 @@ Python uses the native C++ domain types directly through `_score_native`:
 `c_api.h` remains supported as a separate ABI for non-Python FFI clients; it
 is not an internal dependency of nanobind.
 
-See `docs/architecture.md`, `docs/building.md`, and `docs/interop.md` for
-details.
+See `docs/architecture.md`, `docs/building.md`, `docs/interop.md`, and
+`docs/backtest_results.md` for details.
 
 ## License
 
