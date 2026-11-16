@@ -101,7 +101,7 @@ constexpr double p1evl(double x, const std::array<double, N>& coeff) noexcept {
     const auto [p, q] =
         x < 8.0 ? std::pair{detail::polevl(x, detail::P), detail::p1evl(x, detail::Q)}
                 : std::pair{detail::polevl(x, detail::R),
-                            detail::p1evl(x, detail::S)}; // its better to have p and q as a pair,
+                            detail::p1evl(x, detail::S)}; // it's better to have p and q as a pair,
                                                           // instead of their own variables
 
     const double y = (exp_z * p) / q;
